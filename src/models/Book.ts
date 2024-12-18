@@ -1,9 +1,14 @@
 import mongoose from 'mongoose'
 
 const bookSchema = new mongoose.Schema({
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User', 
+    },
     title: {
         type: String,
-        required: true,
+        required: false,
     },
     author: {
         type: String,
@@ -15,7 +20,7 @@ const bookSchema = new mongoose.Schema({
     },
     pages: {
         type: String,
-        required: true,
+        required: false,
     },
     unitPrice: {
         type: String,
@@ -23,11 +28,15 @@ const bookSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: true,
+        required: false,
+    },
+    year: {
+        type: String,
+        required: false,
     },
     bookUrl: {
         type: String,
-        required: true,
+        required: false,
     },
     isbn: {
         type: String,

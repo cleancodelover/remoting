@@ -1,29 +1,25 @@
 'use client'
-import { useGetBooks } from '@/hooks/books/get-books'
 import { useGetAuthorBooks } from '@/hooks/books/user-books'
 import { GetBookType } from '@/types/book'
 import { GlobalRequestParams } from '@/types/global'
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react'
-type BooksProviderProps = {
+type AuthorBooksProviderProps = {
     children: React.ReactNode
 }
 
-export type BooksContextType = {
+export type AuthorBooksContextType = {
     books?: GetBookType[];
-    authorBooks?: GetBookType[];
     handleSearch?: (searchQuery?: GlobalRequestParams) => void;
     fetchNextPage?: () => void;
-    authorFetchNextPage?: () => void;
     hasNextPage?: boolean;
     fetching?: boolean;
     resetSearch?: () => void;
 };
 
-export const BooksContext = createContext<BooksContextType>({});
+export const AuthorBooksContext = createContext<AuthorBooksContextType>({});
 
-const BooksProvider = ({ children }: BooksProviderProps) => {
-    const { handleSearch, books, fetchNextPage, hasNextPage, fetching } = useGetBooks({});
-
+const AuthorProvider = ({ children }: AuthorBooksProviderProps) => {
+    const { handleSearch, books, fetchNextPage, hasNextPage, fetching } = useGetAuthorBooks();
     const resetSearch = useCallback(() => {
         handleSearch && handleSearch({
             author: undefined,
@@ -47,12 +43,12 @@ const BooksProvider = ({ children }: BooksProviderProps) => {
     }), [handleSearch, books, fetchNextPage, hasNextPage, fetching, resetSearch]);
 
     return (
-        <BooksContext.Provider value={contextValue}>
+        <AuthorBooksContext.Provider value={contextValue}>
             {children}
-        </BooksContext.Provider>
+        </AuthorBooksContext.Provider>
     );
 };
 
-export default BooksProvider;
+export default AuthorProvider;
 
-export const useBooks = () => useContext(BooksContext);
+export const useAuthorBooks = () => useContext(AuthorBooksContext);

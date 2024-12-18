@@ -8,6 +8,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { motion } from "framer-motion";
 import React from "react";
 import { useForm } from "react-hook-form";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const LoginForm = () => {
   const {
@@ -61,9 +62,10 @@ const LoginForm = () => {
           <motion.button
             onClick={onLogin}
             whileTap={{ scale: 0.85 }}
+            disabled={loading}
             className="px-5 w-[80%] align-middle float-end h-[42px] my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800 "
           >
-            Login
+            {loading ? <PulseLoader size={4} /> : 'Login'}
           </motion.button>
         </div>
       </div>

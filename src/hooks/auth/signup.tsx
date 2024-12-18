@@ -6,7 +6,7 @@ import { createUserApi } from "@/client/requests/users";
 
 export const useSignup = (onSuccess?: HookOnSuccessType, onError?: HookOnErrorType) => {
     const { showToast } = useToast();
-    const { mutate, } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationFn: createUserApi,
         onSuccess: async (res) =>{
             showToast({message: res?.data?.message, type:'success'})
@@ -23,5 +23,5 @@ export const useSignup = (onSuccess?: HookOnSuccessType, onError?: HookOnErrorTy
         mutate(data);
     }
 
-    return { handleSignUp }
+    return { handleSignUp,loading: isPending }
 }

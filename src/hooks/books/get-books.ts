@@ -3,42 +3,53 @@ import { GetBookType } from "@/types/book";
 import { GlobalRequestParams } from "@/types/global";
 import { queryKeys } from "@/utils/react-query/query-keys";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useMemo } from "react";
 
-export const useGetBooks = (params: GlobalRequestParams = {} as GlobalRequestParams) =>{
-    const [queryKey, setQueryKey] = useState([queryKeys.BOOKS, {...params}]);
+export const useGetBooks = (initialParams?: GlobalRequestParams) => {
+    const [params, setParams] = useState<GlobalRequestParams>(initialParams || {});
     
-    const { data, isPending, isFetching, isError, fetchNextPage, hasNextPage, isFetchingNextPage} = useInfiniteQuery({
-        queryKey: queryKey,
-        queryFn: ({pageParam}: any)=> getBooksApi({page: pageParam, ...params}),
+    const queryKey = useMemo(() => [queryKeys.BOOKS, params], [params]);
+
+    const { 
+        data, 
+        isPending, 
+        isFetching, 
+        isError, 
+        fetchNextPage, 
+        hasNextPage, 
+        isFetchingNextPage 
+    } = useInfiniteQuery({
+        queryKey, 
+        queryFn: ({ pageParam }) => getBooksApi({ page: pageParam, ...params }),
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => {
-            if(pages !== null){
-                return pages?.length + 1;
-            }
-            return 1;
+            return pages != null ? pages?.length + 1 : 1; // Avoids infinite requests
         }
     });
 
-    const handleSearch = useCallback((searchQuery?: GlobalRequestParams) =>{
-        if(params.searchQuery != searchQuery?.searchQuery){
-            params = {...params,...searchQuery};
-            console.log("params :>>>>>>>>>>>>>", params);
-            setQueryKey([...queryKey,{...params}])
-        }
-      }, []);
+    const handleSearch = useCallback((searchQuery?: GlobalRequestParams) => {
+        setParams((prevParams) => {
+            if (JSON.stringify(prevParams) !== JSON.stringify(searchQuery)) {
+                return { ...prevParams, ...searchQuery };
+            }
+            return prevParams;
+        });
+    }, []);
 
-    const books = data?.pages.reduce((acc, page)=>{
-        acc.count += page?.data?.count;
-        acc.data = acc.data?.concat(page?.data?.data);
-        return acc;
-    },{
-        count:0,
-        data: [] as GetBookType[]
-    })
+    const books = useMemo(() => 
+        data?.pages.reduce((acc, page) => {
+            acc.count += page?.data?.count;
+            acc.data = acc.data.concat(page?.data?.data);
+            return acc;
+        }, {
+            count: 0,
+            data: [] as GetBookType[]
+        }), 
+        [data]
+    );
 
     return {
-        books:books?.data,
+        books: books?.data,
         loading: isPending,
         fetching: isFetching,
         error: isError,
@@ -46,5 +57,6 @@ export const useGetBooks = (params: GlobalRequestParams = {} as GlobalRequestPar
         handleSearch,
         hasNextPage,
         isFetchingNextPage
-    }
-}
+    };
+};
+

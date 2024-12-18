@@ -30,7 +30,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
-    books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
+    books: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }],
+    reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
+    ratings: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Rating' }]
 }, {collection: 'users'})
 
 export default mongoose.models.User || mongoose.model('User', userSchema)

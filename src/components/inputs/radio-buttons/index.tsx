@@ -45,9 +45,9 @@ const RadioButtonsSelectComponent = ({
       )}
 
       <div className="flex gap-x-4 w-full">
-        {options.map(option => (
+        {options.map((option, index) => (
           <Controller
-            key={option}
+            key={`${option}${index}`}
             name={name}
             control={control}
             render={({field}) => (

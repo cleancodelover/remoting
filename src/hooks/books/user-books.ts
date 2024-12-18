@@ -4,32 +4,53 @@ import { GetBookType } from "@/types/book";
 import { GlobalRequestParams } from "@/types/global";
 import { queryKeys } from "@/utils/react-query/query-keys";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useCallback, useMemo, useState } from "react";
 
-export const useGetAuthorBooks = (params?: GlobalRequestParams) =>{
-    const queryKey = [queryKeys.USER_BOOKS, {...params}];
-    console.log("queryKey :>>>>>>>>>>>>>>", queryKey);
-    const { data, isPending, isFetching, isError, fetchNextPage, hasNextPage, isFetchingNextPage} = useInfiniteQuery({
-        queryKey: [queryKey],
-        queryFn: ({pageParam}: any)=> getAuthorBooksApi({page: pageParam, ...params}),
+export const useGetAuthorBooks = (initialParams?: GlobalRequestParams) =>{
+    const [params, setParams] = useState<GlobalRequestParams>(initialParams || {});
+    
+    const queryKey = useMemo(() => [queryKeys.USER_BOOKS, params], [params]);
+
+    const { 
+        data, 
+        isPending, 
+        isFetching, 
+        isError, 
+        fetchNextPage, 
+        hasNextPage, 
+        isFetchingNextPage 
+    } = useInfiniteQuery({
+        queryKey, 
+        queryFn: ({ pageParam }) => getAuthorBooksApi({ page: pageParam, ...params }),
         initialPageParam: 1,
         getNextPageParam: (lastPage, pages) => {
-            if(pages !== null){
-                return pages?.length + 1;
-            }
-            return 1;
+            return pages != null ? pages?.length + 1 : 1; // Avoids infinite requests
         }
     });
 
-    const books = data?.pages?.reduce((acc, page)=>{
-        acc.count += page?.data?.count;
-        acc.data = acc?.data?.concat(page?.data?.data);
-        return acc;
-    },{
-        count:0,
-        data: [] as GetBookType[]
-    })
+    const handleSearch = useCallback((searchQuery?: GlobalRequestParams) => {
+        setParams((prevParams) => {
+            if (JSON.stringify(prevParams) !== JSON.stringify(searchQuery)) {
+                return { ...prevParams, ...searchQuery };
+            }
+            return prevParams;
+        });
+    }, []);
+
+    const books = useMemo(() => 
+        data?.pages?.reduce((acc, page) => {
+            acc.count += page?.data?.count;
+            acc.data = acc.data.concat(page?.data?.data);
+            return acc;
+        }, {
+            count: 0,
+            data: [] as GetBookType[]
+        }), 
+        [data]
+    );
 
     return {
+        handleSearch,
         books: books?.data,
         loading: isPending,
         fetching: isFetching,

@@ -1,18 +1,24 @@
 import TextInputComponent from "@/components/inputs/text-input";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaSearch, FaPlus } from "react-icons/fa";
 import BookFormComponent from "@/components/users/book-form";
-import { GlobalRequestParams } from "@/types/global";
 import { useForm, useWatch } from "react-hook-form";
+import { useAuthorBooks } from "@/contexts/booksContext/user-books";
 
-type SearchFieldProps = {
-  handleSearch?:(searchQuery?:GlobalRequestParams | undefined)=>void
-};
-
-const UserBookSearchField = ({ handleSearch }: SearchFieldProps) => {
+const UserBookSearchField = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { control } = useForm<{searchQuery?: string}>();
-  handleSearch && handleSearch({searchQuery: useWatch({control, name: 'searchQuery'})});
+  const { handleSearch } = useAuthorBooks();
+  const searchQuery = useWatch({ control, name: 'searchQuery' });
+
+
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+        if (handleSearch) handleSearch({ searchQuery });
+    }, 500); // Debounce of 500ms
+
+    return () => clearTimeout(delayDebounce);
+}, [searchQuery, handleSearch]);
 
   return <>
     <div className="flex flex-row justify-between w-full">

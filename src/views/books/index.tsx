@@ -1,7 +1,6 @@
 'use client'
 import BookInfo from '@/components/home/book/details'
 import SearchField from '@/components/shared/search'
-import { useBooks } from '@/contexts/booksContext'
 import { useGetBook } from '@/hooks/books/get-book'
 import { motion } from 'framer-motion'
 import Image from 'next/image'
@@ -13,13 +12,12 @@ type BookDetailsProps = {
   id: string | undefined
 }
 const BookDetails = ({ id }:BookDetailsProps) =>{
-  const { handleSearch } = useBooks();
     const router = useRouter();
     const { book } = useGetBook(id);
 
     return <>
     <motion.div className="col-span-9 h-full">
-      <SearchField handleSearch={handleSearch} />
+      <SearchField />
       <div className="flex w-full h-[670px] overflow-y-auto" style={{scrollbarWidth:'none'}}>
       <div className="flex flex-col items-start gap-4 w-full py-4">
         <button style={{cursor:'pointer'}} onClick={()=>{ router.back()}} className='flex flex-row items-center justify-center gap-4 mt-5'>

@@ -24,7 +24,7 @@ export async function POST( req: Request, res: Response) {
 
       // GetUserApiResponse
       if(!book?.isbn || !book?.title) return handleResponse({message: "Fields marked * are required!", status: httpResponseCodes.BAD_REQUEST})
-      const response = await createBook(book);
+      const response = await createBook(userId, book);
       return handleResponse(response);
 
     } catch (error) {

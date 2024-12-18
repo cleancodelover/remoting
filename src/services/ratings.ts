@@ -1,9 +1,8 @@
 "use server";
 import User from "@/models/User";
-import { GlobalRequestParams } from "@/types/global";
 import { httpResponseCodes } from "@/utils/constants";
 import { ObjectId } from "mongodb";
-import { GetBookRatingApiResponse, GetBookRatingsApiResponse, GetGeneralBookRatingApiResponse, GetGeneralBookRatingType, PostBookRatingRequestType } from "@/types/rating";
+import { GetBookRatingApiResponse, GetGeneralBookRatingApiResponse, GetGeneralBookRatingType, PostBookRatingRequestType } from "@/types/rating";
 import Rating from "@/models/Rating";
 
 export const rateBook = async ( user_id:string, rating: PostBookRatingRequestType ): Promise<GetBookRatingApiResponse> => {
@@ -20,7 +19,7 @@ export const rateBook = async ( user_id:string, rating: PostBookRatingRequestTyp
     }
 
     
-    const newRating = new Rating({ ...rating, user_id: new ObjectId(user_id) });
+    const newRating = new Rating({ book_id: new ObjectId(rating.book_id), quantity: Number(rating.quantity), user_id: new ObjectId(user_id) });
     const response = await newRating.save();
     return {
       data: response,
@@ -72,15 +71,14 @@ export const deleteRating = async (id: string): Promise<GetBookRatingApiResponse
 
 export const getBookRatings = async(book_id:string): Promise<GetGeneralBookRatingApiResponse> => {
   try {
-    // const ratings = await Rating.find({book_id: new ObjectId(book_id)});
     const ratings = {} as GetGeneralBookRatingType;
     const stats = await Rating.aggregate([
       { 
-        $match: { bookId: new ObjectId(book_id) } // Filter ratings for the specific book
+        $match: { book_id: new ObjectId(book_id) } // Filter ratings for the specific book
       },
       { 
         $group: {
-          _id: '$bookId',
+          _id: '$book_id',
           totalRatings: { $sum: 1 }, // Count total number of ratings
           averageRating: { $avg: '$quantity' } // Calculate average rating
         }
@@ -89,7 +87,7 @@ export const getBookRatings = async(book_id:string): Promise<GetGeneralBookRatin
 
     if (stats?.length > 0) {
       const { totalRatings, averageRating } = stats[0];
-      ratings.average = averageRating;
+      ratings.average = parseFloat(averageRating?.toFixed(1) ?? 0);
       ratings.total = totalRatings;
     } else {
       ratings.average = 0;

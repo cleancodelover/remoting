@@ -5,13 +5,13 @@ import { FaArrowLeft } from "react-icons/fa";
 import { useRouter } from 'nextjs-toploader/app';
 import UserBook from "../book";
 import UserBookSearchField from "@/components/shared/user-books-search";
-import { useBooks } from "@/contexts/booksContext";
 import { GetBookType } from "@/types/book";
 import EmptyBooks from "@/views/empty";
+import { useAuthorBooks } from "@/contexts/booksContext/user-books";
 
 const UserBooks = () => {
   const router = useRouter();
-  const { authorBooks, handleSearch } = useBooks();
+  const { books } = useAuthorBooks();
 
   return (
     <>
@@ -28,13 +28,11 @@ const UserBooks = () => {
               <FaArrowLeft />
               <h3>{`Back to books`}</h3>
             </button>
-            <UserBookSearchField handleSearch={handleSearch} />
+            <UserBookSearchField />
             <div className="flex flex-col h-full w-full gap-8 pt-4 overflow-y-scroll scroll-m-0" style={{scrollbarWidth:'none'}}>
               {
-                (authorBooks && authorBooks?.length > 0) ? authorBooks?.map((book: GetBookType)=><UserBook book={book} />) : <EmptyBooks />
+                (books && books?.length > 0) ? books?.map((book: GetBookType, index)=><UserBook key={`${book._id}${index}`} book={book} />) : <EmptyBooks />
               }
-              
-              {/* <UserBook /> */}
             </div>
           </div>
         </div>

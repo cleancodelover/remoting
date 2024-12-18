@@ -6,6 +6,11 @@ export interface GlobalApiResponseInterface {
   status: number;
 }
 
+export type BookRateType = {
+  total?:number,
+  average?: number
+}
+
 export type GetBookType = {
     _id: string;
     title: string;
@@ -17,7 +22,9 @@ export type GetBookType = {
     imageUrl: string;
     bookUrl: string;
     year: string;
+    reviewCount?: number,
     reviews: GetBookReviewType[]
+    rating: BookRateType
   };
 
 
@@ -25,6 +32,7 @@ export type PostBookRequestType = {
     title: string;
     description: string;
     author: string;
+    year: string;
     pages: number;
     isbn: string;
     unitPrice?: string;

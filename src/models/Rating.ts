@@ -3,7 +3,8 @@ import mongoose from 'mongoose'
 const ratingSchema = new mongoose.Schema({
     user_id: { 
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User', required: true 
+        ref: 'User', 
+        required: true 
     },
     book_id: { 
         type: mongoose.Schema.Types.ObjectId, 
@@ -11,12 +12,11 @@ const ratingSchema = new mongoose.Schema({
         required: true 
     },
     quantity: {
-        type: String,
+        type: Number,
         required: true,
-        unique: false
     },
-    user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    book: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' }
 }, {collection: 'ratings'})
 
 export default mongoose.models.Rating || mongoose.model('Rating', ratingSchema)

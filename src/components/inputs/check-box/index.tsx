@@ -48,9 +48,9 @@ const CheckBoxComponent = ({
       )}
 
       <div className="flex  flex-col w-full">
-        {options.map(option => (
+        {options.map((option, index) => (
           <Controller
-            key={option?.value}
+            key={`${option?.value}${index}`}
             name={name}
             control={control}
             render={({field}) => (

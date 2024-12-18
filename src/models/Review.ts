@@ -12,11 +12,10 @@ const reviewSchema = new mongoose.Schema({
     },
     message: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
-    user: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-    book: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }]
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    book: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' }
 }, {collection: 'reviews'})
 
 export default mongoose.models.Review || mongoose.model('Review', reviewSchema)

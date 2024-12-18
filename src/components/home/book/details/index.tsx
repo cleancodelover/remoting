@@ -13,29 +13,33 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { motion } from "framer-motion";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { FaStar, FaBookOpen, FaCalendar } from "react-icons/fa";
+import { FaStar, FaStarHalfAlt, FaBookOpen, FaCalendar } from "react-icons/fa";
+import PulseLoader from "react-spinners/PulseLoader";
 
 type BookInfoType = {
   book?: GetBookType | undefined;
 };
 const BookInfo = ({ book }: BookInfoType) => {
   const { setBookUrl } = useReading();
-  const { handleBookReview } = useBookReview();
-  const { handleBookRating } = useBookRating();
-  const { rating } = useGetBookRatings(book?._id ?? "");
-  const { reviews } = useGetBookReviews(book?._id ?? "");
-
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<PostBookReviewRequestType>({
     resolver: yupResolver(iBookReviewFormValidation),
     defaultValues: { book_id: book?._id },
   });
+  const { handleBookReview, loading } = useBookReview(()=>{ reset() });
+  const { handleBookRating, loading: rateLoading } = useBookRating();
+  const { rating } = useGetBookRatings(book?._id ?? "");
+  const { reviews } = useGetBookReviews(book?._id ?? "");
 
   const onBookReview = handleSubmit((data: PostBookReviewRequestType) => {
-    handleBookReview(data);
+    handleBookReview({
+      message: data.message,
+      book_id: book?._id ?? ''
+    });
   });
 
   const onRateBook = (quantity: number) => {
@@ -46,21 +50,52 @@ const BookInfo = ({ book }: BookInfoType) => {
       });
   };
 
+  const displayRatings = ()=>{
+    const totalStars = 5;
+    const fullStars = Math.floor(rating?.average ?? 0); // Number of full stars
+    const hasHalfStar = (rating?.average ?? 0) % 1 !== 0; // Check if there is a half star
+    const emptyStars = totalStars - fullStars - (hasHalfStar ? 1 : 0);
+    return <>
+    {/* Full red stars (clickable) */}
+    {Array.from({ length: fullStars }, (_, index) => (
+        <button 
+          key={`full-${index}`} 
+          onClick={() => onRateBook(index + 1)} // Pass the star number (1 to 5)
+          className="focus:outline-none"
+        >
+          <FaStar className="text-red-300" />
+        </button>
+      ))}
+
+      {/* Half red star (clickable, counted as the next full star) */}
+      {hasHalfStar && (
+        <button 
+          onClick={() => onRateBook(fullStars + 1)} 
+          className="focus:outline-none"
+        >
+          <FaStarHalfAlt className="text-red-300" />
+        </button>
+      )}
+
+      {/* White stars (clickable) */}
+      {Array.from({ length: emptyStars }, (_, index) => (
+        <button 
+          key={`empty-${index}`} 
+          onClick={() => onRateBook(fullStars + (hasHalfStar ? 1 : 0) + index + 1)} 
+          className="focus:outline-none"
+        >
+          <FaStar className="text-gray-300" />
+        </button>
+      ))}
+    </>
+  }
+
   return (
     <div className="w-full">
       <h1 className="text-gray-300 text-2xl font-bold">{book?.title ?? ""}</h1>
       <h4 className="text-gray-300">{book?.author ?? ""}</h4>
       <div className="flex flex-row justify-start items-center py-4">
-        {[1, 2, 3, 4, 5].map((item) => (
-          <button
-            key={item.toString()}
-            onClick={() => {
-              onRateBook(item);
-            }}
-          >
-            <FaStar className="text-red-300" />
-          </button>
-        ))}
+        {displayRatings()}
         <h2 className="ml-3">
           <span className="font-bold">
             {rating?.average ? rating?.average : " "}
@@ -97,8 +132,8 @@ const BookInfo = ({ book }: BookInfoType) => {
           <h4 className="text-gray-300">ISBN: {book?.isbn ?? ""}</h4>
         </div>
       </div>
-      {reviews?.map((review: GetBookReviewType) => (
-        <BookReviewCard key={review.id} review={review} />
+      {reviews?.map((review: GetBookReviewType, index) => (
+        <BookReviewCard key={`${review.id}${index}`} review={review} />
       ))}
       <TextAreaInputComponent
         control={control}
@@ -113,7 +148,7 @@ const BookInfo = ({ book }: BookInfoType) => {
           whileTap={{ scale: 0.85 }}
           className="px-5 float-end h-[34px] my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800 "
         >
-          Submit
+          {loading ? <PulseLoader size={4} /> : 'Submit'}
         </motion.button>
       </div>
     </div>

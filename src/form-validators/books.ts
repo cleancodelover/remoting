@@ -10,6 +10,9 @@ export const iBookFormValidation = Yup.object().shape({
   description: Yup.string()
     .required('Description is required'),
   
+    year: Yup.string()
+      .required('Year is required'),
+  
     author: Yup.string()
     .required('Author is required'),
 

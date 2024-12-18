@@ -11,7 +11,7 @@ import { useGetAuthors } from "@/hooks/users/get-authors";
 const FiltersSidebar = () => {
   const { control } = useForm();
   const { handleSearch, resetSearch } = useBooks();
-  const { authors } = useGetAuthors();
+  // const { authors } = useGetAuthors();
 
   return (
     <motion.div
@@ -29,7 +29,7 @@ const FiltersSidebar = () => {
         onChange={(val) => {
           handleSearch && handleSearch({ year: val });
         }}
-        range={true}
+        range={false}
         title="Publication Year"
         isYear = {true}
         min={1950}
@@ -47,7 +47,7 @@ const FiltersSidebar = () => {
           isRating
         />
       </div>
-      <div className="my-8">
+      {/* <div className="my-8">
         <DropDownSelectComponent
           onInputValueChange={(val) => {
             handleSearch && handleSearch({ author: val });
@@ -55,9 +55,9 @@ const FiltersSidebar = () => {
           label="Author"
           control={control}
           name="author"
-          options={authors ? authors?.map((item)=>{ return { label: `${item.firstName} ${item.lastName}`, value: `${item.firstName} ${item.lastName}`}}) : []}
+          options={authors?.length ? authors?.map((item)=>{ return { label: `${item?.firstName} ${item?.lastName}`, value: `${item?.firstName} ${item?.lastName}`}}) : []}
         />
-      </div>
+      </div> */}
       <SlidingFilter
         onChange={(val) => {
           handleSearch && handleSearch({ pages: val });

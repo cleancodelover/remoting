@@ -10,13 +10,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { motion } from "framer-motion";
 import React from "react";
 import { useForm } from "react-hook-form";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const SignupForm = () => {
   const { control, handleSubmit, formState: { errors } } = useForm<PostUserRequestType>({
     resolver: yupResolver(iSignUpFormValidation)
   });
   const { setView } = usePopOver();
-  const { handleSignUp } = useSignup(()=>{ setView && setView('login') });
+  const { handleSignUp, loading } = useSignup(()=>{ setView && setView('login') });
   const onSignup = handleSubmit((data: PostUserRequestType) =>{
     const formData = toFormData(data);
     handleSignUp(formData);
@@ -83,7 +84,7 @@ const SignupForm = () => {
             whileTap={{ scale: 0.85 }}
             className="px-5 w-[80%] align-middle float-end h-[42px] my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800 "
           >
-            Sign up
+            {loading ? <PulseLoader size={4} /> : 'Sign up'}
           </motion.button>
         </div>
       </div>

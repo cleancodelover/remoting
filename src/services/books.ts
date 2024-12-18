@@ -14,9 +14,10 @@ const path = require('path');
 const url = require('url');
 
 export const createBook = async (
+  user_id: string,
   book: PostBookRequestType
 ): Promise<GetBookApiResponse> => {
-  
+
   try {
     const bookCheck = await Book.findOne().where("isbn").equals(book.isbn);
     if (bookCheck) {
@@ -46,6 +47,7 @@ export const createBook = async (
     
     const newBook = new Book({
       ...book,
+      user_id: new ObjectId(user_id),
       imageUrl,
       bookUrl
     });
@@ -124,7 +126,6 @@ export const updateBook = async ( book: PutBookRequestType ): Promise<GetBookApi
 };
 
 export const getBookById = async (id: string): Promise<GetBookApiResponse> => {
-  console.log("id :>>>>>>>>>>>>>>", id);
   try {
     const book = await Book.findOne().where("_id").equals(new ObjectId(id));
     // .populate({
@@ -228,31 +229,88 @@ export const getBooks = async({searchQuery, author, category, pages, rating, yea
 
 export const getAuthorBooks = async(user_id:string, {searchQuery, author, category, pages, rating, year, size = 20, page = 1 }: GlobalRequestParams): Promise<GetBooksApiResponse> => {
   try {
-    const orQuery = [];
-    
-    if(searchQuery){
-      orQuery.push({ title: { $regex: new RegExp(searchQuery, 'i') } });
-      orQuery.push({ description: { $regex: new RegExp(searchQuery, 'i') } });
-    }
 
-    if(author){
-      orQuery.push({ author: { $regex: new RegExp(author, 'i') } });
-    }
+    const orFilters = [];
 
-    if(year){
-      orQuery.push({ year });
-    }
+  if (searchQuery) {
+    orFilters.push({
+      $or: [
+        { title: { $regex: searchQuery, $options: 'i' } },
+        { description: { $regex: searchQuery, $options: 'i' } },
+        { author: { $regex: searchQuery, $options: 'i' } }
+      ]
+    });
+  }
 
-    if(pages){
-      orQuery.push({ pages });
-    }
+  if (year) {
+    orFilters.push({ year: year });
+  }
+
+  if (author) {
+    orFilters.push({ author: { $regex: author, $options: 'i' } }); // Partial search, case-insensitive
+  }
+
+  if (pages) {
+    orFilters.push({ pages: pages });
+  }
 
 
-    const filter = { $or: orQuery, $and:[{_id: new ObjectId(user_id)}] };
+  const matchingFilters:Record<string, any> = { 
+    $and: [{ user_id: new ObjectId(user_id) }]
+  };
 
-    const books = await Book.find(filter).skip((page!-1)*size!).limit(size!)
-    ;
-    
+  if (orFilters.length > 0) {
+    matchingFilters.$and.push({ $or: orFilters });
+  }
+
+    const books = await Book.aggregate([
+      {
+        $match: matchingFilters
+      },
+      {
+        $lookup: {
+          from: 'ratings',
+          localField: '_id',
+          foreignField: 'book_id',
+          as: 'ratings'
+        }
+      },
+      {
+        $lookup: {
+          from: 'reviews',
+          localField: '_id',
+          foreignField: 'book_id',
+          as: 'reviews'
+        }
+      },
+      {
+        $addFields: {
+          rating: {
+            quantity: { $size: '$ratings' },
+            average: { 
+              $cond: [
+                { $gt: [{ $size: '$ratings' }, 0] }, 
+                { $divide: [{ $sum: '$ratings.quantity' }, { $size: '$ratings' }] },
+                0
+              ]
+            }
+          },
+          reviewCount: { $size: '$reviews' }
+        }
+      },
+      {
+        $project: {
+          ratings: 0
+        }
+      },
+      {
+        $skip: (page!-1)*size!
+      },
+      {
+        $limit: size!
+      }
+    ]);
+
     return {
       data: books,
       status: httpResponseCodes.HANDLED,

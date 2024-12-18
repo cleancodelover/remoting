@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FaWindowClose } from "react-icons/fa";
+import PulseLoader from "react-spinners/PulseLoader";
 
 interface ComponentProps {
   open?: boolean;
@@ -28,7 +29,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
     defaultValues: book ? {...book} : {},
   });
 
-  const { handleBookUpload } = useUploadBook(()=>{ reset() });
+  const { handleBookUpload, loading } = useUploadBook(()=>{ reset() });
   const [bookCover, setBookCover] = useState<any>(null);
   const [bookFile, setBookFile] = useState<any>(null);
 
@@ -98,9 +99,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                 placeholder="Enter the book's author"
                 label="Author"
               />
-             
-              <div className="flex flex-row gap-2">
-              <TextInputComponent
+             <TextInputComponent
                 control={control}
                 name="isbn"
                 type="text"
@@ -108,6 +107,16 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                 error={errors.isbn?.message}
                 placeholder="Enter the book ISBN"
                 label="ISBN"
+              />
+              <div className="flex flex-row gap-2">
+              <TextInputComponent
+                control={control}
+                name="year"
+                type="text"
+                required
+                error={errors.isbn?.message}
+                placeholder="Enter the book year e.g (1970)"
+                label="Year"
               />
 
               <TextInputComponent
@@ -161,7 +170,8 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                   onClick={onUploadBook}
                   className="px-5 w-[200px] align-middle float-end h-[42px] my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800"
                 >
-                  Submit
+                  
+                  {loading ? <PulseLoader size={4} /> : 'Submit'}
                 </motion.button>
               </div>
             </div>

@@ -6,7 +6,6 @@ export default async function authMiddleware(
 ): Promise<string | null> {
   const token = request.headers.get("authorization")?.split(" ")[1];
   if (!token || token == 'null' || token == null) return null;
-  console.log("User Id :>>>>>>>>>>>>", token);
 
   const verified:any = await jwtVerify(
     token,
