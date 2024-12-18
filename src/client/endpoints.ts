@@ -1,0 +1,10 @@
+export const LOG_IN_ENDPONT = "/api/auth/login";
+export const LOG_OUT_ENDPONT = "/api/auth/logout";
+export const AUTHORS_ENDPONT = "/api/authors";
+export const BOOKS_ENDPONT = "/api/books";
+export const USERS_ENDPONT = "/api/users";
+export const BOOK_REVIEW_ENDPONT = "/api/reviews";
+export const BOOK_REVIEWS_ENDPONT = "/api/book-reviews";
+export const BOOK_RATINGS_ENDPONT = "/api/book-ratings";
+export const BOOK_RATING_ENDPONT = "/api/ratings";
+export const USER_BOOKS_ENDPONT = "/api/users/books";

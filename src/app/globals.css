@@ -9,8 +9,9 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #383838;
     --foreground: #ededed;
+    --lightDark: #171717;
   }
 }
 
@@ -18,4 +19,72 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.sliding-div {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 50vw; /* 50% of the window's width */
+  height: 100vh; /* Full height */
+  background-color: #111827; /* Dark gray/black color */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.3);
+  z-index: 1000; /* Make sure it appears on top */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 1); 
+  z-index: 999;
+}
+
+.menu-btn {
+  background-color: #0070f3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 60px; /* Adjust this to align with the bottom of the button */
+  right: 20px; /* Aligns it to the right side */
+  background-color: #111827;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 200px;
+  z-index: 100;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  padding: 15px 20px;
+  border-bottom: 1px solid #f1f1f1;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+li:hover {
+  background-color: #383838;
+}
+
+li:last-child {
+  border-bottom: none;
 }
