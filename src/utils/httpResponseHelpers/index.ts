@@ -1,6 +1,6 @@
 import { httpResponseCodes } from "../constants";
 
-export const respondWith200OkJson = (data: any): Response | void => {
+export const respondWith200OkJson = (data: any): Response => {
     return Response.json({
     ...data,
     success: true,
@@ -13,7 +13,7 @@ export const respondWith200OkJson = (data: any): Response | void => {
 
 export const respondWith400BadRequest = (
   data: any
-): Response | void => {
+): Response => {
     return Response.json({
     success: false,
     message: data.message,
@@ -25,7 +25,7 @@ export const respondWith400BadRequest = (
 
 export const respondWith401Unauthorized = (
   data: any
-): Response | void => {
+): Response => {
     return Response.json({
     success: false,
     message: data.message,
@@ -35,7 +35,7 @@ export const respondWith401Unauthorized = (
   }, {status: httpResponseCodes.UNAUTHORIZED});
 };
 
-export const respondWith201Created = (data: any): Response | void => {
+export const respondWith201Created = (data: any): Response => {
   return Response.json({
     success: false,
     message: data.message,
@@ -47,7 +47,7 @@ export const respondWith201Created = (data: any): Response | void => {
 
 export const respondWith500InternalServerError = (
   data: any
-): Response | void => {
+): Response => {
   return Response.json({
     success: false,
     message: data.message,
@@ -59,7 +59,7 @@ export const respondWith500InternalServerError = (
 
 export const respondWith204NoContent = (
   data: any
-): Response | void => {
+): Response => {
   return Response.json({
     success: false,
     message: data?.message,
