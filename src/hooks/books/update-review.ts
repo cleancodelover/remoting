@@ -11,7 +11,7 @@ export const useUpdateBookReview = (onSuccess?: HookOnSuccessType, onError?: Hoo
         mutationFn: updateBookReviewApi,
         onSuccess: async res =>{
             onSuccess && onSuccess();
-            showToast({message: res?.message, type:'success'})
+            showToast({message: res?.data?.message, type:'success'})
         },
         onError(error:any, variables, context) {
             onError && onError();
