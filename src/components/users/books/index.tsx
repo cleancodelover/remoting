@@ -31,7 +31,7 @@ const UserBooks = () => {
             <UserBookSearchField />
             <div className="flex flex-col h-full w-full gap-8 pt-4 overflow-y-scroll scroll-m-0" style={{scrollbarWidth:'none'}}>
               {
-                (books && books?.length > 0) ? books?.map((book: GetBookType, index)=><UserBook key={`${book._id}${index}`} book={book} />) : <EmptyBooks />
+                (books && books?.length > 0) ? books?.map((book: GetBookType, index)=><UserBook key={`${book?._id}${index}`} book={book} />) : <EmptyBooks />
               }
             </div>
           </div>

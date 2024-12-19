@@ -26,7 +26,7 @@ export const createUserApi = async (data: FormData) =>{
 
 export const updateUserApi = async (data: FormData) =>{
     try{
-        const response = await globalHttpClient.patch<GetUserApiResponse>(USERS_ENDPONT, data, {});
+        const response = await globalHttpClient.put<GetUserApiResponse>(USERS_ENDPONT, data, {});
         return response;
     } catch (error) {
         console.log("Error :>>>>>>>>>>>>", error)

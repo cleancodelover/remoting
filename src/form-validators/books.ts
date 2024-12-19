@@ -4,17 +4,14 @@ import useToast from '@/hooks/notifications/toast';
 
 const {showToast} = useToast();
 export const iBookFormValidation = Yup.object().shape({
-  title: Yup.string()
-    .required('Title is required'),
+  _id: Yup.string().optional(),
+  title: Yup.string().required('Title is required'),
   
-  description: Yup.string()
-    .required('Description is required'),
+  description: Yup.string().required('Description is required'),
   
-    year: Yup.string()
-      .required('Year is required'),
+  year: Yup.string().required('Year is required'),
   
-    author: Yup.string()
-    .required('Author is required'),
+  author: Yup.string().required('Author is required'),
 
   pages: Yup.number()
     .required('Pages are required')
@@ -25,12 +22,19 @@ export const iBookFormValidation = Yup.object().shape({
     .required('ISBN is required')
     .matches(/^\d{10}(\d{3})?$/, 'ISBN must be 10 or 13 digits'),
   
-  unitPrice: Yup.string()
-    .optional(),
+  unitPrice: Yup.string().optional(),
   
-  bookCover: Yup.mixed().required("Book cover is required!"),
+  bookCover: Yup.mixed().when('_id', {
+    is: (id: string) => !id,  // If _id is not present (new book), bookCover is required
+    then: (schema) => schema.required('Book cover is required for new books'),
+    otherwise: (schema) => schema.optional(),  // If _id is present (edit book), bookCover is optional
+  }),
   
-  bookFile: Yup.mixed().required("Book cover is required!")
+  bookFile: Yup.mixed().when('_id', {
+    is: (id: string) => !id,  // If _id is not present (new book), bookFile is required
+    then: (schema) => schema.required('Book file is required for new books'),
+    otherwise: (schema) => schema.optional(),  // If _id is present (edit book), bookFile is optional
+  }),
 });
 
 export const iBookReviewFormValidation = Yup.object().shape({

@@ -1,14 +1,11 @@
-import validateAccess from "@/middlewares/auth";
-import { createUser, getUserById, getUsers, updateUser } from "@/services/users";
+import { createUser, getUserById, updateUser } from "@/services/users";
 import {
   GetUserApiResponse,
   PostUserRequestType,
   PutUserRequestType,
 } from "@/types/user";
 import { httpResponseCodes } from "@/utils/constants";
-import { getQueryParams } from "@/utils/helpers";
 import {handleResponse} from "@/utils/httpResponseHelpers";
-import { ObjectId } from "mongodb";
 import { NextRequest } from "next/server";
 
 export async function POST(req: Request, res: Response) {
@@ -55,7 +52,6 @@ export async function PUT(req: NextRequest) {
       profile: formData.get("profile"),
       firstName: formData.get("firstName"),
       lastName: formData.get("lastName"),
-      _id: userId,
     } as PutUserRequestType;
     const response = await updateUser(userId, user);
     return handleResponse(response);

@@ -34,8 +34,8 @@ const BookReviewCard = ({ review }: BookReviewCardProps) => {
         priority
       />
       <div className="flex flex-col justify-start items-start w-full mb-8">
-        <h4 className="text-sm font-bold text-gray-400">{`${review?.user?.firstName ?? "Verkyav"} ${
-          review?.user?.lastName ?? "Peter "
+        <h4 className="text-sm font-bold text-gray-400">{`${review?.user?.firstName ?? ""} ${
+          review?.user?.lastName ?? ""
         }`}</h4>
         <p className="text-xs text-gray-400">
           {review?.message ?? ''}{' '}

@@ -1,6 +1,7 @@
 "use client";
 import TextAreaInputComponent from "@/components/inputs/text-area";
 import BookReviewCard from "@/components/users/book-review-card";
+import { useAuthentication } from "@/contexts/authContext";
 import { useReading } from "@/contexts/readingContext";
 import { iBookReviewFormValidation } from "@/form-validators/books";
 import { useGetBookRatings } from "@/hooks/books/book-ratings";

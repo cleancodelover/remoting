@@ -22,7 +22,6 @@ const UserBook = ({ book }:UserBookProps) => {
   const { setBookUrl } = useReading();
   const { handleBookRating } = useBookRating();
   const { showToast } = useToast();
-  const { reviews } = useGetBookReviews(book?._id ?? "");
 
   const displayRatings = ()=>{
     const totalStars = 5;

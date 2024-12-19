@@ -49,6 +49,7 @@ export const createBook = async (
       ...book,
       user_id: new ObjectId(user_id),
       imageUrl,
+      year: book.year,
       bookUrl
     });
     const response = await newBook.save();
@@ -167,7 +168,7 @@ export const deleteBook = async (id: string): Promise<GetBookApiResponse> => {
 
     await Book.deleteOne({ _id: book._id });
     return {
-      data: book,
+      data: null,
       status: httpResponseCodes.HANDLED,
       message: "Success",
       count: 1,

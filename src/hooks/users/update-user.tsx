@@ -6,11 +6,11 @@ import { updateUserApi } from "@/client/requests/users";
 
 export const useUpdateUser = (onSuccess?: HookOnSuccessType, onError?: HookOnErrorType) => {
     const { showToast } = useToast();
-    const { mutate, } = useMutation({
+    const { mutate, isPending} = useMutation({
         mutationFn: updateUserApi,
         onSuccess: async res =>{
             onSuccess && onSuccess();
-            showToast({message: res?.message, type:'success'})
+            showToast({message: res?.data?.message, type:'success'})
         },
         onError(error:any, variables, context) {
             onError && onError();
@@ -23,5 +23,5 @@ export const useUpdateUser = (onSuccess?: HookOnSuccessType, onError?: HookOnErr
         mutate(data);
     }
 
-    return { handleBookUpdate }
+    return { handleBookUpdate, loading: isPending }
 }

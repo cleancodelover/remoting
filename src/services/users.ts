@@ -103,7 +103,10 @@ export const updateUser = async (
     check.lastName = user.lastName ?? check.lastName;
     check.imageUrl = imageUrl;
 
-    const response = await User.updateOne(check);
+
+    const response = await User.updateOne(
+      { _id: check?._id },
+      { $set: check})
 
     if(!response.acknowledged) {
       return {

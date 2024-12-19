@@ -15,5 +15,5 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
     
      const response = await deleteBook(id); 
 
-    return handleResponse(response.data);
+    return handleResponse(response);
   }

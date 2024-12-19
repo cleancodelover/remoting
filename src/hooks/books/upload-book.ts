@@ -29,6 +29,8 @@ export const useUploadBook = (
         unitPrice: formData.get("unitPrice")?.toString() ?? "",
         year: formData.get("year")?.toString() ?? "",
         reviews: [],
+        rating: {},
+        reviewCount:0
       };
 
       await queryClient.cancelQueries({

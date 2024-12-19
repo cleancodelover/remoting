@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import TextInputComponent from "@/components/inputs/text-input";
@@ -10,15 +10,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useGetUser } from "@/hooks/users/get-user";
 import { toFormData } from "@/utils/helpers/client-helpers";
 import { useUpdateUser } from "@/hooks/users/update-user";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const ProfileSidebar = () => {
   const { user } = useGetUser();
   const [profile, setProfile] = useState<any>();
-  const { handleBookUpdate } = useUpdateUser();
+  const { handleBookUpdate, loading } = useUpdateUser();
   const {
     control,
     handleSubmit,
-    getValues,
     formState: { errors },
   } = useForm<PutUserRequestType>({
     resolver: yupResolver(iUserUpdateFormValidation),
@@ -28,7 +28,7 @@ const ProfileSidebar = () => {
 
   const onUpdateUser = handleSubmit((data: any) => {
     const formData = toFormData(data);
-    formData.set("profile", profile);
+    formData.set("profile", profile[0]);
     handleBookUpdate && handleBookUpdate(formData)
   });
 
@@ -47,7 +47,7 @@ const ProfileSidebar = () => {
       <div className="flex flex-col w-full justify-center items-center">
         <div className="relative">
           <Image
-            src={profile ? URL.createObjectURL(profile[0]) : user?.imageUrl ? user?.imageUrl : `/picture-avatar.jpg`}
+            src={profile ? URL.createObjectURL(profile[0]) : user?.imageUrl ? new URL(user?.imageUrl).pathname : `/picture-avatar.jpg`}
             alt="Profile picture"
             width={180}
             height={38}
@@ -92,7 +92,8 @@ const ProfileSidebar = () => {
             whileTap={{ scale: 0.85 }}
             className="px-5 align-middle float-end h-[42px] my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800 "
           >
-            Save Changes
+            {loading ? <PulseLoader size={4} /> : 'Save Changes'}
+            
           </motion.button>
         </div>
       </div>

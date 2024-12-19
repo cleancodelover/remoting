@@ -1,6 +1,7 @@
 import TextAreaInputComponent from "@/components/inputs/text-area";
 import TextInputComponent from "@/components/inputs/text-input";
 import { iBookFormValidation } from "@/form-validators/books";
+import { useUpdateBook } from "@/hooks/books/update-book";
 import { useUploadBook } from "@/hooks/books/upload-book";
 import { GetBookType, PostBookRequestType } from "@/types/book";
 import { toFormData } from "@/utils/helpers/client-helpers";
@@ -30,14 +31,16 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
   });
 
   const { handleBookUpload, loading } = useUploadBook(()=>{ reset() });
+  const { handleBookUpdate, loading:isUpdating } = useUpdateBook(()=>{ reset() });
   const [bookCover, setBookCover] = useState<any>(null);
   const [bookFile, setBookFile] = useState<any>(null);
 
   const onUploadBook = handleSubmit((data: any)=>{
     const formData = toFormData(data);
-    formData.set('bookFile', bookFile[0]);
+    !book && formData.set('bookFile', bookFile[0]);
     formData.set('bookCover', bookCover[0]);
-    handleBookUpload(formData)
+    if(book) formData.set('_id', book._id);
+    book ? handleBookUpdate(formData) : handleBookUpload(formData);
   })
 
   return (
@@ -80,6 +83,15 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
             </div>
 
             <div className="flex flex-col gap-y-2 overflow-y-scroll" style={{scrollbarWidth:'none'}}>
+            <TextInputComponent
+                control={control}
+                name="_id"
+                required
+                type="hidden"
+                error={errors._id?.message}
+                placeholder=""
+              />
+
               <TextInputComponent
                 control={control}
                 name="title"
@@ -114,7 +126,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                 name="year"
                 type="text"
                 required
-                error={errors.isbn?.message}
+                error={errors.year?.message}
                 placeholder="Enter the book year e.g (1970)"
                 label="Year"
               />
@@ -129,7 +141,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
               />
               </div>
 
-              <div className="flex flex-row gap-2">
+              <div className={!book ? `flex flex-row gap-2` : ''}>
               <TextInputComponent
                 control={control}
                 name="bookCover"
@@ -142,7 +154,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                 label="Book cover"
               />
 
-              <TextInputComponent
+              {!book && <TextInputComponent
                 control={control}
                 name="bookFile"
                 type="file"
@@ -152,7 +164,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                 error={errors.bookFile?.message?.toString()}
                 placeholder="Upload book pdf file"
                 label="Book pdf file"
-              />
+              />}
             </div>
               <TextAreaInputComponent
                 control={control}
@@ -171,7 +183,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
                   className="px-5 w-[200px] align-middle float-end h-[42px] my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800"
                 >
                   
-                  {loading ? <PulseLoader size={4} /> : 'Submit'}
+                  {(loading || isUpdating) ? <PulseLoader size={4} /> : 'Submit'}
                 </motion.button>
               </div>
             </div>

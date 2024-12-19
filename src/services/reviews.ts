@@ -101,9 +101,42 @@ export const deleteReview = async (id: string): Promise<GetBookReviewApiResponse
   }
 };
 
-export const getBookReviews = async(book_id:string, {searchQuery, size, page}: GlobalRequestParams): Promise<GetBookReviewsApiResponse> => {
+export const getBookReviews = async(book_id:string, {searchQuery, size = 20, page = 1}: GlobalRequestParams): Promise<GetBookReviewsApiResponse> => {
   try {
-    const reviews = await Review.find({book_id: new ObjectId(book_id)}).skip((page!-1)*size!).limit(size!);
+    const reviews = await Review.aggregate([
+      {
+        $match: {book_id: new ObjectId(book_id)}
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'user_id',
+          foreignField: '_id',
+          as: 'user'
+        }
+      },
+      { 
+        $unwind: '$user' 
+      },
+      { 
+        $skip: (page! - 1) * size! 
+      },
+      { 
+        $limit: size! 
+      },
+      {
+        $project: {
+          _id: 1,
+          book_id: 1,
+          user_id: 1,
+          message: 1,
+          'user.firstName': 1,
+          'user.lastName': 1,
+          'user.email': 1,
+          'user.imageUrl': 1
+        }
+      }
+    ])
     return {
       data: reviews,
       status: httpResponseCodes.HANDLED,

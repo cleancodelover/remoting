@@ -20,7 +20,7 @@ export const useBookReview = ( onSuccess?: HookOnSuccessType, onError?: HookOnEr
         user_id: authUser?.id ?? '',
         id: Date.now().toString(),
         message: data.message,
-        user: {} as GetUserType,
+        user: {...authUser} as GetUserType,
       };
 
       await queryClient.cancelQueries({

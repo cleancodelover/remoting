@@ -16,6 +16,7 @@ export async function POST( req: Request, res: Response) {
       bookFile: formData.get("bookFile"),
       title: formData.get("title"),
       author: formData.get("author"),
+      year: formData.get("year"),
       description: formData.get("description"),
       pages: formData.get("pages"),
       isbn: formData.get("isbn"),
@@ -46,10 +47,13 @@ export async function PUT(req: NextRequest){
     const book = {
       bookCover: formData.get("bookCover"),
       title: formData.get("title"),
+      author: formData.get("author"),
+      year: formData.get("year"),
       description: formData.get("description"),
       pages: formData.get("pages"),
       isbn: formData.get("isbn"),
-      unitPrice: formData.get("unitPrice")
+      unitPrice: formData.get("unitPrice"),
+      _id: formData.get("_id")
     } as PutBookRequestType;
 
       // GetUserApiResponse

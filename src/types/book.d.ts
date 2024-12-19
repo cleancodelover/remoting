@@ -29,6 +29,7 @@ export type GetBookType = {
 
 
 export type PostBookRequestType = {
+    _id?: string; 
     title: string;
     description: string;
     author: string;
@@ -36,19 +37,20 @@ export type PostBookRequestType = {
     pages: number;
     isbn: string;
     unitPrice?: string;
-    bookCover: any;
-    bookFile: any
+    bookCover?: any; 
+    bookFile?: any;
   };
 
   export type PutBookRequestType = {
     _id:string,
     title: string;
+    year: string;
     description: string;
-    category: string;
+    category?: string;
     pages: number;
     isbn: string;
     unitPrice?: string;
-    bookCover: any;
+    bookCover?: any;
     author: string;
     };
 

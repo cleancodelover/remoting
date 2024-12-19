@@ -40,7 +40,7 @@ const BookMenu = ({ isOpen, setIsOpen, book}:BookMenuType) =>{
       >
         <ul>
           <li onClick={() => { setEditBook(true)}}>Edit</li>
-          <li onClick={() => handleDeleteBook(book?.id ?? '')}>Delete</li>
+          <li onClick={() => handleDeleteBook(book?._id ?? '')}>Delete</li>
         </ul>
         <BookFormComponent open={editBook} book={book} handleClose={()=>{setEditBook(false)}} />
       </motion.div>
