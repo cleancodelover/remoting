@@ -2,7 +2,7 @@ import { LoginResponseType } from "@/types/auth";
 import { httpResponseCodes } from "@/utils/constants";
 import { handleResponse } from "@/utils/httpResponseHelpers";
 
-export async function GET( req: Request, res: Response) {
+export async function GET( req: Request) {
     try {
         return handleResponse({message: "Logged out.", status: httpResponseCodes.HANDLED});
       } catch (error) {

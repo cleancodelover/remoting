@@ -3,7 +3,7 @@ import { GetBookReviewApiResponse, PostBookReviewRequestType } from "@/types/rev
 import { httpResponseCodes } from "@/utils/constants";
 import { handleResponse } from "@/utils/httpResponseHelpers";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const userId = req.headers.get('user_id');
   if(!userId) return handleResponse({status: httpResponseCodes.UNAUTHORIZED, message: "You have to login to review any book."});
   
