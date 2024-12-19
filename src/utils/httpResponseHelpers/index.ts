@@ -69,7 +69,7 @@ export const respondWith204NoContent = (
   }, {status: httpResponseCodes.HANDLED});
 };
 
-export const handleResponse = (data:any) =>{
+export const handleResponse = (data:any): Response =>{
   switch(data.status){
     case httpResponseCodes.HANDLED:
       return respondWith200OkJson(data);
@@ -84,6 +84,6 @@ export const handleResponse = (data:any) =>{
     case httpResponseCodes.UNAUTHORIZED:
       return respondWith401Unauthorized(data);
     default:
-      return null
+      return respondWith500InternalServerError(data)
   }
 }
