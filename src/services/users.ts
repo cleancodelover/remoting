@@ -135,7 +135,6 @@ export const updateUser = async (
 };
 
 export const getUserById = async (id: string): Promise<GetUserApiResponse> => {
-  console.log("id :<>>>>>>>>>>>>", id);
   try {
     const user = await User.findOne().where("_id").equals(new ObjectId(id))
     .select("firstName imageUrl lastName email isAuthor _id")
