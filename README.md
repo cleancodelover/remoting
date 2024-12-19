@@ -1,7 +1,7 @@
 
-# 📚 Book Sharing Platform  
+# 📚 Book Reading Platform  
 
-Welcome to the **Book Sharing Platform**, a user-friendly application designed to connect authors with readers. This platform allows anyone to sign up as an author, upload their books, and share them with a community of passionate readers. Readers can explore, discover, and read books directly on the platform.  
+Welcome to the **Book Platform**, a user-friendly application designed to connect authors with readers. This platform allows anyone to sign up as an author, upload their books, and share them with a community of passionate readers. Readers can explore, discover, and read books directly on the platform.  
 
 ## ✨ **Design Philosophy**  
 Simplicity, ease of use, and accessibility are at the heart of this project. The platform features a sleek dark theme to create a comfortable reading experience, especially for users who may spend extended periods immersed in books. The intuitive design ensures seamless navigation for both authors and readers.  
@@ -16,11 +16,6 @@ The project is built with scalability and efficiency in mind, leveraging **Mongo
 
 ## 🚀 **Installation & Setup**  
 Step-by-step instructions to set up the project locally, including dependencies, environment variables, and usage guidelines.  
-
-## 🎉 **Thank You!**  
-This project reflects my passion for creating impactful, user-centric applications. I hope you find it as engaging and practical as I intended it to be. For any feedback or questions, feel free to reach out!  
-
-## Installation
 
 1. Clone the project to your local machine:
    ```bash
@@ -106,5 +101,7 @@ The API is well-structured and located in the `src/app/api` folder. It is connec
 
 > **Note:** The frontend is highly responsive, though I didn’t have enough time to complete all features. However, what is available should give you a clear idea of my capabilities.
 
-Thank you for reviewing!
+## 🎉 **Thank You!**  
+This project reflects my passion for creating impactful, user-centric applications. I hope you find it as engaging and practical as I intended it to be.  
+
 ```
