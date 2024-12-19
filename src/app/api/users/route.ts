@@ -8,7 +8,7 @@ import { httpResponseCodes } from "@/utils/constants";
 import {handleResponse} from "@/utils/httpResponseHelpers";
 import { NextRequest } from "next/server";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const formData = (await req.formData()) as any;
   try {
     const user = {
