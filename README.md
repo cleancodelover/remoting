@@ -1,8 +1,9 @@
 ## Installation
-The project is done in such a way that, any user can sign up as an author and upload his books and other people will see it and read. Below is the entire process from installation to navigation. 
+The project is done in such a way that, any user can sign up as an author and upload his books and other users can find it and read. Below is the entire process from installation to navigation. I've also committed the .env file so you can make use of my mongo cloud db but the user will be removed very soon.
+
 1. Clone the project to your local machine:
    ```bash
-   git clone <project-repo-url>
+   git clone https://github.com/cleancodelover/remoting.git
    ```
 2. Navigate into the project directory:
    ```bash
