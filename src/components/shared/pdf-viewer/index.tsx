@@ -39,7 +39,7 @@ const PDFViewer = () => {
             <h1 className="flex flex-row justify-center items-center gap-2"><FaWindowClose /> Close</h1>
           </motion.button>
             <iframe
-              src={bookUrl}
+              src={new URL(bookUrl).pathname}
               className="w-[800px] h-[650px]"
               style={{ border: "none" }}
             />
