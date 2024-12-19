@@ -1,5 +1,5 @@
 
-# 📚 Book Reading Platform  
+# 📚 Book Sharing Platform  
 
 Welcome to the **Book Platform**, a user-friendly application designed to connect authors with readers. This platform allows anyone to sign up as an author, upload their books, and share them with a community of passionate readers. Readers can explore, discover, and read books directly on the platform.  
 
