@@ -5,7 +5,7 @@ import { getQueryParams } from "@/utils/helpers";
 import {handleResponse} from "@/utils/httpResponseHelpers";
 import { NextRequest } from "next/server";
 
-export async function POST( req: Request, res: Response) {
+export async function POST( req: Request) {
   const userId = req.headers.get('user_id');
   if(!userId) return handleResponse({status: httpResponseCodes.UNAUTHORIZED, message: "Unauthorized access."});
   
