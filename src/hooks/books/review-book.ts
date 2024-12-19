@@ -16,7 +16,7 @@ export const useBookReview = ( onSuccess?: HookOnSuccessType, onError?: HookOnEr
     mutationFn: addBookReviewApi,
     onMutate: async (data) => {
       const review: GetBookReviewType = {
-        book_id: data.book_id,
+        book_id: data?.book_id ?? '',
         user_id: authUser?.id ?? '',
         id: Date.now().toString(),
         message: data.message,
@@ -24,14 +24,14 @@ export const useBookReview = ( onSuccess?: HookOnSuccessType, onError?: HookOnEr
       };
 
       await queryClient.cancelQueries({
-        queryKey: [queryKeys.BOOK_REVIEWS, { id: data.book_id, size: 8 }],
+        queryKey: [queryKeys.BOOK_REVIEWS,  data.book_id],
       });
 
-      const previousReviews: any = queryClient.getQueryData([queryKeys.BOOK_REVIEWS, { id: data.book_id, size: 8 }]);
+      const previousReviews: any = queryClient.getQueryData([queryKeys.BOOK_REVIEWS,  data.book_id]);
 
       if (review) {
         queryClient.setQueryData(
-            [queryKeys.BOOK_REVIEWS, { id: data.book_id, size: 8 }],
+          [queryKeys.BOOK_REVIEWS,  data.book_id],
             (oldData: any) => ({...oldData, review})
           );
       }
@@ -41,7 +41,7 @@ export const useBookReview = ( onSuccess?: HookOnSuccessType, onError?: HookOnEr
         queryClient.invalidateQueries({
         queryKey: [
           queryKeys.BOOK_REVIEWS,
-          { id: response?.data?.data?.book_id, size: 8 },
+          response?.data?.data?.book_id,
         ],
       });
       onSuccess && onSuccess();

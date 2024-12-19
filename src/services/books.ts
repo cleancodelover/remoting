@@ -9,6 +9,7 @@ import { ObjectId } from "mongodb";
 import fs from 'fs';
 import { pipeline } from 'stream';
 import { promisify } from 'util';
+import { PipelineStage } from "mongoose";
 const pump = promisify(pipeline);
 const path = require('path');
 const url = require('url');
@@ -186,37 +187,75 @@ export const deleteBook = async (id: string): Promise<GetBookApiResponse> => {
 
 export const getBooks = async({searchQuery, author, category, pages, rating, year, size = 20, page = 1 }: GlobalRequestParams): Promise<GetBooksApiResponse> => {
   try {
-    const orQuery = [];
-    if(searchQuery){
-      orQuery.push({ title: { $regex: new RegExp(searchQuery, 'i') } });
-      orQuery.push({ description: { $regex: new RegExp(searchQuery, 'i') } });
+    const matchConditions: any[] = [];
+
+    if (year) {
+      matchConditions.push({ year: year });
+    }
+    if (pages) {
+      matchConditions.push({ pages: pages });
+    }
+    if (searchQuery) {
+      matchConditions.push({
+        $or: [
+          { title: { $regex: searchQuery, $options: "i" } },
+          { author: { $regex: searchQuery, $options: "i" } },
+          { description: { $regex: searchQuery, $options: "i" } },
+        ],
+      });
     }
 
-    if(author){
-      orQuery.push({ author: { $regex: new RegExp(author, 'i') } });
-    }
+    const aggregationPipeline: PipelineStage[] = [
+      ...(matchConditions.length > 0
+        ? [{ $match: { $and: matchConditions } }]
+        : []),
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "book_id",
+          as: "ratings",
+        },
+      },
+      {
+        $addFields: {
+          validRatings: {
+            $filter: {
+              input: "$ratings",
+              as: "rating",
+              cond: { $gte: ["$$rating.rating", rating] },
+            },
+          },
+        },
+      },
+      ...(rating ? [{ $match: { "validRatings.0": { $exists: true } } }] : []),
+      {
+        $project: {
+          ratings: 0,
+          validRatings: 0,
+        },
+      },
+      {
+        $sort: {
+          title: 1,
+        },
+      },
+      {
+        $skip: (Number(page) - 1) * Number(size),
+      },
+      {
+        $limit: Number(size),
+      },
+    ];
 
-    if(year){
-      orQuery.push({ year });
-    }
+    const books = await Book.aggregate(aggregationPipeline);
 
-    if(pages){
-      orQuery.push({ pages });
-    }
-
-
-    const filter = { $or: orQuery };
-
-    const books = await Book.find(filter).skip((page!-1)*size!).limit(size!)
-    ;
-    
     return {
       data: books,
       status: httpResponseCodes.HANDLED,
       message: "Success",
       count: 1,
     } as GetBooksApiResponse;
-
   } catch (error: any) {
     console.log("Error here ;>>>>>>>>>>>>>", error);
     return {

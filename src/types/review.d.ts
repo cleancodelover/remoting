@@ -16,7 +16,7 @@ export interface GlobalApiResponseInterface {
   
   
   export type PostBookReviewRequestType = {
-      book_id: string;
+      book_id?: string;
       message: string;
     };
 

@@ -84,7 +84,7 @@ const SlidingFilter = ({
           handleChange(e as any);
         }}
         onChangeComplete={(e) => {
-          onChange && onChange(e);
+          onChange && onChange(isYear ? currentValue : e);
         }}
         style={{ borderColor: "#d1d5db" }}
         dotStyle={{}}

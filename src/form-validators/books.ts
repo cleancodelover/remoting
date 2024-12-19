@@ -19,8 +19,8 @@ export const iBookFormValidation = Yup.object().shape({
     .integer('Pages must be an integer'),
   
   isbn: Yup.string()
-    .required('ISBN is required')
-    .matches(/^\d{10}(\d{3})?$/, 'ISBN must be 10 or 13 digits'),
+  .required('ISBN is required')
+  .matches(/^[\d-]{10,20}$/, 'ISBN must be between 10 to 20 characters'),
   
   unitPrice: Yup.string().optional(),
   
@@ -39,7 +39,7 @@ export const iBookFormValidation = Yup.object().shape({
 
 export const iBookReviewFormValidation = Yup.object().shape({
   book_id: Yup.string()
-    .required(()=>{ showToast({message:'Something went wrong. Refresh and try again.', type:'error'})}),
+    .optional(),
   message: Yup.string()
     .required('Message is required'),
 });
