@@ -42,8 +42,8 @@ Step-by-step instructions to set up the project locally, including dependencies,
 
 ### Landing Page
 
-- On the right side, you’ll find filters to help you easily find the books you want. Adjust these filters as needed.
-- The book list appears on the right side of the page. There is no page navigation; the list scrolls infinitely as you continue to scroll.
+- On the left side, you’ll find filters to help you easily find the books you want. Adjust these filters as needed.
+- The book list appears on the right side of the page. There is no page navigation; the list scrolls infinitely as you continue to scroll fetching just chunks of data per time making it blazing fast.
 - At the top, there is a search bar. You can search for books by title, author, or description.
 
 ### To Read a Book
