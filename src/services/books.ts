@@ -34,13 +34,13 @@ export const createBook = async (
     let imageUrl = "";
     let bookUrl = "";
     if(book?.bookCover){
-      const filePath = `./public/books/${Date.now().toString()}${book?.bookCover?.name}`;
+      const filePath = `./public/book-images/${Date.now().toString()}${book?.bookCover?.name}`;
       await pump(book?.bookCover?.stream(), fs.createWriteStream(filePath));
       const relativePath = path.relative('./public', filePath);
       imageUrl = new url.URL(relativePath, process.env.NEXT_PUBLIC_APP_URL).href;
     }
     if(book?.bookFile){
-      const filePath = `./public/books/${Date.now().toString()}${book?.bookFile?.name}`;
+      const filePath = `./public/book-images/${Date.now().toString()}${book?.bookFile?.name}`;
       await pump(book?.bookFile?.stream(), fs.createWriteStream(filePath));
       const relativePath = path.relative('./public', filePath);
       bookUrl = new url.URL(relativePath, process.env.NEXT_PUBLIC_APP_URL).href;
@@ -86,7 +86,7 @@ export const updateBook = async ( book: PutBookRequestType ): Promise<GetBookApi
 
     let imageUrl = check.imageUrl;
     if(book?.bookCover){
-      const filePath = `./public/profile/${Date.now().toString()}${book?.bookCover?.name}`;
+      const filePath = `./public/book-images/${Date.now().toString()}${book?.bookCover?.name}`;
       await pump(book?.bookCover?.stream(), fs.createWriteStream(filePath));
       const relativePath = path.relative('./public', filePath);
       imageUrl = new url.URL(relativePath, process.env.NEXT_PUBLIC_APP_URL).href;

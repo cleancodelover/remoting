@@ -42,7 +42,7 @@ export const createUser = async (
 
     let imageUrl = "";
     if(user?.profile){
-      const filePath = `./public/profile/${Date.now().toString()}${user?.profile?.name}`;
+      const filePath = `./public/profile-images/${Date.now().toString()}${user?.profile?.name}`;
       await pump(user?.profile?.stream(), fs.createWriteStream(filePath));
       const relativePath = path.relative('./public', filePath);
       imageUrl = new url.URL(relativePath, process.env.NEXT_PUBLIC_APP_URL).href;
@@ -93,7 +93,7 @@ export const updateUser = async (
 
     let imageUrl = check.imageUrl;
     if(user?.profile){
-      const filePath = `./public/profile/${Date.now().toString()}${user?.profile?.name}`;
+      const filePath = `./public/profile-images/${Date.now().toString()}${user?.profile?.name}`;
       await pump(user?.profile?.stream(), fs.createWriteStream(filePath));
       const relativePath = path.relative('./public', filePath);
       imageUrl = new url.URL(relativePath, process.env.NEXT_PUBLIC_APP_URL).href;
