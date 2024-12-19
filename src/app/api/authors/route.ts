@@ -1,7 +1,6 @@
 import { getAuthors } from "@/services/users";
 import { GetUserApiResponse } from "@/types/user";
 import { httpResponseCodes } from "@/utils/constants";
-import { getQueryParams } from "@/utils/helpers";
 import { handleResponse } from "@/utils/httpResponseHelpers";
 import { NextRequest } from "next/server";
 

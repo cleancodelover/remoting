@@ -1,5 +1,5 @@
 'use client'
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import BookCard from "./book";
 import SearchField from "@/components/shared/search";
@@ -9,10 +9,36 @@ import EmptyBooks from "@/views/empty";
 
 const BookList = () => {
   const { books, fetchNextPage, hasNextPage, fetching } = useBooks();
+  const observer = useRef<IntersectionObserver | null>(null);
+  const lastBookRef = useRef<HTMLDivElement | null>(null);
 
-    const loadMore = () => {
-        hasNextPage && fetchNextPage && fetchNextPage();
-    };
+    // const loadMore = () => {
+    //     hasNextPage && fetchNextPage && fetchNextPage();
+    // };
+
+    useEffect(() => {
+      if (observer.current) observer.current.disconnect();
+  
+      const loadMore = ([entry]: IntersectionObserverEntry[]) => {
+        console.log("Fetched :>>>>>>>>>>>>>>>>>")
+        if (entry.isIntersecting && hasNextPage) {
+          console.log("Fetched :>>>>>>>>>>>>>>>>>")
+          fetchNextPage && fetchNextPage();
+        }
+      };
+  
+      observer.current = new IntersectionObserver(loadMore, {
+        rootMargin: '100px',
+      });
+  
+      if (lastBookRef.current) {
+        observer.current.observe(lastBookRef.current);
+      }
+  
+      return () => {
+        if (observer.current) observer.current.disconnect();
+      };
+    }, [hasNextPage, fetchNextPage]);
 
   return (
     <motion.div className="col-span-9 h-full">
@@ -23,6 +49,7 @@ const BookList = () => {
           (!books || !books?.length) ? <EmptyBooks title={"No records found!"} /> : books?.map((item:GetBookType, index)=>{ return <BookCard key={`${item?._id}}${index}`} book={item} />})
         }
       </div>
+      <div ref={lastBookRef} />
       </div>
     </motion.div>
   );
