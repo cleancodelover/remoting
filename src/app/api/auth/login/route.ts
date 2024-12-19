@@ -6,7 +6,6 @@ import { handleResponse } from "@/utils/httpResponseHelpers";
 export async function POST( req: Request) {
     const auth = await req.json() as LoginRequestType;
     try {
-      
         // GetUserApiResponse
         if(!auth?.email || !auth?.password) return handleResponse({message: "All fields are required", status: httpResponseCodes.BAD_REQUEST})
         const response = await login(auth);
