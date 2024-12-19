@@ -3,7 +3,7 @@ import { LoginRequestType, LoginResponseType } from "@/types/auth";
 import { httpResponseCodes } from "@/utils/constants";
 import { handleResponse } from "@/utils/httpResponseHelpers";
 
-export async function POST( req: Request, res: Response) {
+export async function POST( req: Request) {
     const auth = await req.json() as LoginRequestType;
     try {
       
