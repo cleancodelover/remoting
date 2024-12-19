@@ -40,7 +40,7 @@ const PDFViewer = () => {
           </motion.button>
             <iframe
               src={bookUrl}
-              className="w-[800px] h-[700px]"
+              className="w-[800px] h-[650px]"
               style={{ border: "none" }}
             />
           </div>
