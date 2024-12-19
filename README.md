@@ -54,12 +54,12 @@ Step-by-step instructions to set up the project locally, including dependencies,
 
 ### To Review a Book
 
-- On the book details page, there is a text area at the bottom. Type your review and click "Submit." Your review will be displayed immediately.
+- On the book details page, there is a text area at the bottom. Type your review and click "Submit." You will need to login or signup to be able to carry out this action. Your review will be displayed immediately.
 
 ### To Rate a Book
 
 - On the book details page, find the rating stars located in the middle of the page.
-- Click on a star to rate the book. For example, clicking the first star will record a 1-star rating, the second star will record 2 stars, and so on up to 5 stars.
+- Click on a star to rate the book. For example, clicking the first star will record a 1-star rating, the second star will record 2 stars, and so on up to 5 stars. You will need to login or signup to be able to do this.
 
 ### To Sign Up
 
