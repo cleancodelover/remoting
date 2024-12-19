@@ -14,6 +14,9 @@ The project is built with scalability and efficiency in mind, leveraging **Mongo
 - **Reader Experience**: Browse and read books with an immersive, eye-friendly dark mode.  
 - **Simple, Clear Navigation**: Designed for ease of access and smooth user experience.  
 
+## 🚀 **Preview** 
+You can preview the app on [here](https://sea-lion-app-jl247.ondigitalocean.app)
+
 ## 🚀 **Installation & Setup**  
 Step-by-step instructions to set up the project locally, including dependencies, environment variables, and usage guidelines.  
 
@@ -99,7 +102,7 @@ The API is well-structured and located in the `src/app/api` folder. It is connec
 
 - **All endpoints** are secured with JWT for authentication.
 
-> **Note:** The frontend is highly responsive, though I didn’t have enough time to complete all features. However, what is available should give you a clear idea of my capabilities.
+> **Note:** The frontend is not very responsive, though I didn’t have enough time to make it a perfectly responsive app. However, my code organization and what is available should give you a clear idea of my capabilities. You can also check https://greenindie.com on your mobile to see another project I've worked on.
 
 ## 🎉 **Thank You!**  
 This project reflects my passion for creating impactful, user-centric applications. I hope you find it as engaging and practical as I intended it to be.  
