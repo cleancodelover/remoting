@@ -40,26 +40,31 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'sea-lion-app-jl247.ondigitalocean.app',
+        port:'8080',
         pathname: '/images/**',
       },
       {
         protocol: 'https',
         hostname: 'sea-lion-app-jl247.ondigitalocean.app',
+        port:'8080',
         pathname: '/profile/**',
       },
       {
         protocol: 'https',
         hostname: 'sea-lion-app-jl247.ondigitalocean.app',
+        port:'8080',
         pathname: '/book-images/**',
       },
       {
         protocol: 'https',
         hostname: 'sea-lion-app-jl247.ondigitalocean.app',
+        port:'8080',
         pathname: '/profile-images/**',
       },
       {
         protocol: 'https',
         hostname: 'sea-lion-app-jl247.ondigitalocean.app',
+        port:'8080',
         pathname: '/books/**',
       },
     ],
