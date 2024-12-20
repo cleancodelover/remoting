@@ -14,6 +14,10 @@ export default {
         foreground: "var(--foreground)",
         lightDark: "var(--lightDark)"
       },
+      screens: {
+        'xs': '480px',
+        'xxs': '375px',
+      },
     },
   },
   plugins: [],

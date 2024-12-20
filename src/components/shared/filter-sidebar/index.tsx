@@ -15,7 +15,7 @@ const FiltersSidebar = () => {
 
   return (
     <motion.div
-      className="col-span-3 rounded-md p-4 h-[95%] bg-lightDark"
+      className="col-span-3 rounded-md p-4 h-[95%] bg-lightDark hidden lg:block"
       whileInView={{
         opacity: 1,
         x: 0,

@@ -20,7 +20,7 @@ const BookList = () => {
       if (observer.current) observer.current.disconnect();
   
       const loadMore = ([entry]: IntersectionObserverEntry[]) => {
-        console.log("Fetched :>>>>>>>>>>>>>>>>>")
+          console.log("Fetched :>>>>>>>>>>>>>>>>>");
         if (entry.isIntersecting && hasNextPage) {
           console.log("Fetched :>>>>>>>>>>>>>>>>>")
           fetchNextPage && fetchNextPage();
@@ -41,15 +41,15 @@ const BookList = () => {
     }, [hasNextPage, fetchNextPage]);
 
   return (
-    <motion.div className="col-span-9 h-full">
+    <motion.div className="col-span-12 md:col-span-9 h-full">
       <SearchField />
-      <div className="flex w-full h-[670px] overflow-y-auto scrollbar-hidden" style={{scrollbarWidth:'none'}}>
-      <div className="flex flex-wrap justify-start gap-4 w-full py-4" style={{scrollbarWidth:'none'}}>
+      <div className="col-span-12 h-[670px] overflow-y-auto scrollbar-hidden" style={{scrollbarWidth:'none'}}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 flex-wrap justify-start gap-4 w-full py-4">
         {
           (!books || !books?.length) ? <EmptyBooks title={"No records found!"} /> : books?.map((item:GetBookType, index)=>{ return <BookCard key={`${item?._id}}${index}`} book={item} />})
         }
       </div>
-      <div ref={lastBookRef} />
+      {/* <div ref={lastBookRef} /> */}
       </div>
     </motion.div>
   );
