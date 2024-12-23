@@ -72,7 +72,7 @@ const TextInputComponent = ({
                 error
                   ? "rounded-lg border-red-500 bg-[#FFFFFF1A] text-sm text-red-500 placeholder-red-500 focus:border-blue-500 focus:border-[2px] focus:outline-none"
                   : "rounded-lg border-secondaryDarkGreen bg-[#FFFFFF1A] text-sm text-gray-50 focus:border-blue-500 focus:border-[2px] focus:outline-none"
-              } block w-full h-[44px] ${Icon ? "pl-10" : "pl-2.5"} p-2.5`}
+              } block w-full h-[30px] md:h-[44px] ${Icon ? "pl-10" : "pl-2.5"} p-2.5`}
               value={value}
               onChange={(e)=>{
                 onChange(e);

@@ -29,14 +29,14 @@ const SearchField = () => {
 
 
   return <>
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row gap-3 md:gap-3 justify-between">
     <button
       onClick={()=>{ setShowFilters && setShowFilters(val=>!val) }}
       className="block md:hidden"
     >
-      <FaFilter size={25} />
+      <FaFilter className="size-[16px] md:size-[30px]" />
     </button>
-      <div className="rounded-md bg-lightDark w-[90%] md:w-[95%]">
+      <div className="rounded-full md:rounded-md bg-lightDark w-[90%] h-[100%] md:w-[95%] overflow-x-hidden">
         <TextInputComponent
           Icon={FaSearch}
           control={control}
@@ -48,7 +48,7 @@ const SearchField = () => {
       <button
         onClick={onPopOver}
       >
-        <FaUserCircle size={35} />
+        <FaUserCircle className="size-[18px] md:size-[35px]" />
       </button>
     </div>
     <UserMenu isOpen={openUserMenu} setIsOpen={setOpenUserMenu} />
