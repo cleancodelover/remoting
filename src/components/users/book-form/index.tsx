@@ -66,7 +66,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
           exit={{ opacity: 0, y: "100%" }}
           transition={{ duration: 0.3 }}
           style={{ zIndex: 1000 }}
-          className="fixed top-0 left-0 w-screen h-screen  inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center md:px-4"
+          className="fixed top-4 md:top-0 left-0 w-screen h-screen  inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center md:px-4"
         >
           <div className="w-[450px] max-h-[650px] rounded-md px-6 bg-background py-3 pb-4 flex flex-col gap-y-2">
             <div className="w-full h-[44px] flex items-center justify-between ">
@@ -141,7 +141,7 @@ const BookFormComponent = ({ open, handleClose, book }: ComponentProps) => {
               />
               </div>
 
-              <div className={!book ? `flex flex-row gap-2` : ''}>
+              <div className={!book ? `flex flex-col md:flex-row gap-2` : ''}>
               <TextInputComponent
                 control={control}
                 name="bookCover"
