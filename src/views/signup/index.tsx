@@ -25,7 +25,7 @@ const SignupForm = () => {
 
   return (
     <>
-      <div className="h-full mr-5 w-[22vw] flex flex-col justify-center">
+      <div className="h-full mr-5 w-[90vw] md:w-[22vw] flex flex-col justify-center">
         <h1 className="font-bold text-3xl">Register</h1>
         <h4>
           Already have an account?{" "}

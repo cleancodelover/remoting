@@ -25,7 +25,7 @@ body {
   position: fixed;
   top: 0;
   right: 0;
-  width: 50vw; /* 50% of the window's width */
+  /*width: 50vw; /* 50% of the window's width */
   height: 100vh; /* Full height */
   background-color: #111827; /* Dark gray/black color */
   color: white;

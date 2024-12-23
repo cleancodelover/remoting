@@ -26,10 +26,10 @@ const PopOver = () => {
       </AnimatePresence>
       <motion.div
         initial={{ x: "100%" }}
-        animate={{ x: isOpen ? "50%" : "100%" }}
-        // animate={{ x: isOpen ? (window.innerWidth >= 1024 ? "50%" : "0%") : "100%" }}
+        // animate={{ x: isOpen ? "50%" : "100%" }}
+        animate={{ x: isOpen ? (window.innerWidth >= 1024 ? "50%" : "0%") : "100%" }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="sliding-div relative"
+        className="sliding-div relative w-[100vw] md:w-[50vw]"
       >
         <button
           onClick={() => {
