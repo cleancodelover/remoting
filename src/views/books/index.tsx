@@ -23,13 +23,13 @@ const BookDetails = ({ id }:BookDetailsProps) =>{
         <button style={{cursor:'pointer'}} onClick={()=>{ router.back()}} className='flex flex-row items-center justify-center gap-4 mt-5'>
             <FaArrowLeft /><h3>{`Back to books`}</h3>
         </button>
-        <div className='flex flex-row w-full items-start gap-8'>
+        <div className="flex flex-col lg:flex-row w-full items-start gap-8">
         <Image
          src={book?.imageUrl ? new URL(book.imageUrl).pathname : '/images/blindness.jpg'}
           alt="Book title"
           width={180}
           height={38}
-          className="w-[300px] h-auto rounded-lg object-cover"
+          className="w-full md:w-[300px] h-auto rounded-lg object-cover"
           priority
         />
         <BookInfo book={book} />
