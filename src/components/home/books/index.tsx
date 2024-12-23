@@ -12,10 +12,6 @@ const BookList = () => {
   const observer = useRef<IntersectionObserver | null>(null);
   const lastBookRef = useRef<HTMLDivElement | null>(null);
 
-    // const loadMore = () => {
-    //     hasNextPage && fetchNextPage && fetchNextPage();
-    // };
-
     useEffect(() => {
       if (observer.current) observer.current.disconnect();
   
