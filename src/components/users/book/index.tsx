@@ -70,7 +70,7 @@ const UserBook = ({ book }:UserBookProps) => {
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 1 }}
-      className="flex flex-row gap-5 justify-between rounded-md w-full"
+      className="flex flex-col md:flex-row gap-5 justify-between rounded-md w-full"
     >
       <Image
         src={book?.imageUrl ? new URL(book.imageUrl).pathname : "/images/blindness.jpg"}

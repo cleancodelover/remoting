@@ -11,11 +11,14 @@ import { useGetUser } from "@/hooks/users/get-user";
 import { toFormData } from "@/utils/helpers/client-helpers";
 import { useUpdateUser } from "@/hooks/users/update-user";
 import PulseLoader from "react-spinners/PulseLoader";
+import { usePopOver } from "@/contexts/popOverContext";
+import { FaWindowClose } from "react-icons/fa";
 
 const ProfileSidebar = () => {
   const { user } = useGetUser();
   const [profile, setProfile] = useState<any>();
   const { handleBookUpdate, loading } = useUpdateUser();
+  const { showProfile, setShowProfile } = usePopOver();
   const {
     control,
     handleSubmit,
@@ -34,17 +37,33 @@ const ProfileSidebar = () => {
 
   return (
     <motion.div
-      className="col-span-3 rounded-md p-4 h-[95%] bg-lightDark pt-10"
-      whileInView={{
-        opacity: 1,
-        x: 0,
-        transition: {
-          duration: 0.3,
-        },
-      }}
-      viewport={{ once: false }}
-    >
+          className={`col-span-3 rounded-md p-4 h-[95%] bg-lightDark 
+          ${showProfile ? "block" : "hidden"} lg:block 
+          absolute lg:relative z-50 lg:z-auto top-0 right-0 left-0 bottom-0 ${
+            showProfile ? "h-[100vh]" : ""
+          }`}
+          animate={{
+            opacity: showProfile ? 1 : 0,
+            x: showProfile ? 0 : 50,
+          }}
+          whileInView={{
+            opacity: 1,
+            x: 0,
+            transition: {
+              duration: 0.3,
+            },
+          }}
+          viewport={{ once: false }}
+        >
       <div className="flex flex-col w-full justify-center items-center">
+        <button
+                  onClick={() => {
+                    setShowProfile && setShowProfile(false);
+                  }}
+                  className="absolute top-3 left-3"
+                >
+                  <FaWindowClose />
+                </button>
         <div className="relative">
           <Image
             src={profile ? URL.createObjectURL(profile[0]) : user?.imageUrl ? new URL(user?.imageUrl).pathname : `/picture-avatar.jpg`}
