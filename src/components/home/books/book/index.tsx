@@ -23,7 +23,7 @@ const BookCard = ({ book }: BookProps) => {
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 1 }}
         whileTap={{ scale: 0.65 }}
-        className="rounded-md bg-lightDark xxs:h-[100px] sm:h-[300px]"
+        className="rounded-md bg-lightDark sm:h-[300px]"
       >
        <Image
           src={book.imageUrl ? new URL(book.imageUrl).pathname : '/images/blindless.jpg'}
