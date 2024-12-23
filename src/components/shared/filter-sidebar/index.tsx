@@ -17,10 +17,10 @@ const FiltersSidebar = () => {
 
   return (
     <motion.div
-      className={`col-span-3 rounded-md p-4 h-[95%] bg-lightDark 
+      className={`col-span-3 rounded-md p-4 bg-lightDark 
       ${showFilters ? "block" : "hidden"} lg:block 
       absolute lg:relative z-50 lg:z-auto top-0 right-0 left-0 bottom-0 ${
-        showFilters ? "h-[100vh]" : ""
+        showFilters ? "h-[100vh]" : "h-[95%]"
       }`}
       animate={{
         opacity: showFilters ? 1 : 0,
@@ -105,7 +105,7 @@ const FiltersSidebar = () => {
         <motion.button
           onClick={()=>{
             resetSearch && resetSearch();
-            setShowFilters && setShowFilters(false);
+            setShowFilters && setShowFilters(val=>!val);
           }}
           whileTap={{ scale: 0.85 }}
           className="w-full px-2 h-[42px] my-2 lg:my-10 text-md font-medium border bg-slate-50 rounded-[8px] text-gray-800"
