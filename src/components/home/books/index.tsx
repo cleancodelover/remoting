@@ -44,7 +44,7 @@ const BookList = () => {
     <motion.div className="col-span-12 md:col-span-9 h-full">
       <SearchField />
       <div className="col-span-12 h-[670px] overflow-y-auto scrollbar-hidden" style={{scrollbarWidth:'none'}}>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 flex-wrap justify-start gap-4 w-full py-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-6 flex-wrap justify-start gap-4 w-full py-4 lg:px-4">
         {
           (!books || !books?.length) ? <EmptyBooks title={"No records found!"} /> : books?.map((item:GetBookType, index)=>{ return <BookCard key={`${item?._id}}${index}`} book={item} />})
         }
