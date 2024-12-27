@@ -1,7 +1,7 @@
 
 # 📚 Book Sharing Platform  
 
-Welcome to the **Book Platform**, a user-friendly application designed to connect authors with readers. This platform allows anyone to sign up as an author, upload their books, and share them with a community of passionate readers. Readers can explore, discover, and read books directly on the platform.  
+Welcome to the **Book Sharing Platform**, a user-friendly application designed to connect authors with readers. This platform allows anyone to sign up as an author, upload their books, and share them with a community of passionate readers. Readers can explore, discover, and read books directly on the platform. You can access it here https://sea-lion-app-jl247.ondigitalocean.app/
 
 ## ✨ **Design Philosophy**  
 Simplicity, ease of use, and accessibility are at the heart of this project. The platform features a sleek dark theme to create a comfortable reading experience, especially for users who may spend extended periods immersed in books. The intuitive design ensures seamless navigation for both authors and readers.  
